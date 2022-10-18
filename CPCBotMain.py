@@ -66,13 +66,21 @@ while True:
 
             extension = fileName.split(".")[1]
             if extension == "py":
-                r1 = subprocess.run(['python.exe', 'testhello.py'], input='100', capture_output=True, text=True).stdout
-                r2 = subprocess.run(['python.exe', 'testhello.py'], input='72', capture_output=True, text=True).stdout
-                r3 = subprocess.run(['python.exe', 'testhello.py'], input='5274', capture_output=True, text=True).stdout
+                print(f'Filename: {fileName}')
+                r1 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='100', shell=True, capture_output=True, text=True).stdout
+                print(f"Test 1 = {r1}")
+                r2 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='5274', shell=True, capture_output=True, text=True).stdout
+                print(f"Test 2 = {r2}")
+                r3 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='2478', shell=True, capture_output=True, text=True).stdout
+                print(f"Test 3 = {r3}")
 
-                if check_solution(r1, 49) and check_solution(r2, 35) and check_solution(r3, 2636):
-                    message = 'Subject: {}\n\n{}'.format(f"CPC Weekly: Correct Solution Detected, {house} House",
-                                                         "Please check your server files to verify the solution")
+                if check_solution(r1, 49) and check_solution(r2, 2636) and check_solution(r3, 1238):
+                    print("Correct Solution!")
+                    message = 'Subject: {}\n\n{}'.format(f"CPC Weekly: Correct Solution! {house} ",
+                                                         "Congrats on the correct solution!")
+                    server.sendmail(email_user, original_sender, message)
+                    message = 'Subject: {}\n\n{}'.format(f"CPC Weekly: Correct Solution Detected",
+                                                         f"Correct solution from {original_sender} of {house}")
                     server.sendmail(email_user, "56spc56@gmail.com", message)
             else:
                 print("Invalid Filetype")
