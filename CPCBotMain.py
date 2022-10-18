@@ -9,7 +9,22 @@ import pytz
 
 email_user = "bchigh.cpc@gmail.com"
 email_pass = "qrwvizsjumxddbvw"
-answer = 49
+
+
+def check_solution(result, answer):  # for testing
+    try:
+        if int(result) == answer:
+            return True
+        else:
+            message = 'Subject: {}\n\n{}'.format("CPC Weekly: Incorrect Solution",
+                                                 f"Sorry, it looks like your solution was incorrect. The expected answer was: {answer}, and your answer was: {int(result)}.")
+            server.sendmail(email_user, original_sender, message)
+    except ValueError:
+        print("Output could not be converted to type int")
+        message = 'Subject: {}\n\n{}'.format("CPC Weekly: Incorrect Solution",
+                                             f"Sorry, it looks like your solution was incorrect. The expected answer was: {answer}, and your answer was: {result}.")
+        server.sendmail(email_user, original_sender, message)
+
 
 while True:
     mail = imaplib.IMAP4_SSL("imap.gmail.com", port=993)
@@ -38,6 +53,7 @@ while True:
                 fp.close()
             print(f'Downloaded "{fileName}" from "{original_sender}"')
 
+            global server
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
             server.login(email_user, email_pass)
@@ -49,25 +65,17 @@ while True:
             server.sendmail(email_user, email_user, message)
 
             extension = fileName.split(".")[1]
-            if extension == "py" or extension == "java":
-                if extension == "py":
-                    result = subprocess.check_output(f'python CPCDownloadedFiles/{fileName}', shell=True)
+            if extension == "py":
+                r1 = subprocess.run(['python.exe', 'testhello.py'], input='100', capture_output=True, text=True).stdout
+                r2 = subprocess.run(['python.exe', 'testhello.py'], input='72', capture_output=True, text=True).stdout
+                r3 = subprocess.run(['python.exe', 'testhello.py'], input='5274', capture_output=True, text=True).stdout
 
-                else:
-                    print("Invalid Filetype")
-
-                try:
-                    if int(result) == answer:
-                        message = 'Subject: {}\n\n{}'.format(f"CPC Weekly: Correct Solution Detected, {house} House", "Please check your server files to verify the solution")
-                        server.sendmail(email_user, "56spc56@gmail.com", message)
-                    else:
-                        message = 'Subject: {}\n\n{}'.format("CPC Weekly: Incorrect Solution",
-                                                             f"Sorry, it looks like your solution was incorrect. The expected answer was: {answer}, and your answer was: {int(result)}.")
-                        server.sendmail(email_user, original_sender, message)
-                except ValueError:
-                    print("Output could not be converted to type int")
-                    message = 'Subject: {}\n\n{}'.format("CPC Weekly: Incorrect Solution", f"Sorry, it looks like your solution was incorrect. The expected answer was: {answer}, and your answer was: {result}.")
-                    server.sendmail(email_user, original_sender, message)
+                if check_solution(r1, 49) and check_solution(r2, 35) and check_solution(r3, 2636):
+                    message = 'Subject: {}\n\n{}'.format(f"CPC Weekly: Correct Solution Detected, {house} House",
+                                                         "Please check your server files to verify the solution")
+                    server.sendmail(email_user, "56spc56@gmail.com", message)
+            else:
+                print("Invalid Filetype")
 
             server.quit()
 
