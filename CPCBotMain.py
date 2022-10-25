@@ -86,8 +86,8 @@ while True:
 
                 if check_solution(r1, 0.75) and check_solution(r2, 0.25) and check_solution(r3, 0.075):
                     print("Correct Solution!")
-                    message = 'Subject: {}\n\n{}'.format(f"CPC Weekly: Correct Solution! {house} ",
-                                                         "Congrats on the correct solution!")
+                    message = 'Subject: {}\n\n{}'.format(f"CPC Weekly: Tests Passed, awaiting manual review, {house} ",
+                                                         "Congrats on passing the tests!")
                     server.sendmail(email_user, original_sender, message)  # to solver
 
                     # this section from https://www.tutorialspoint.com/send-mail-with-attachment-from-your-gmail-account-using-python
