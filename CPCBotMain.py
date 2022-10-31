@@ -13,23 +13,20 @@ from email import encoders
 
 email_user = "bchigh.cpc@gmail.com"
 email_pass = "qrwvizsjumxddbvw"
-pi = 3.141592
 
 
-def check_solution(result, answer):  # configured for 10/24 problem
-    lower = pi - answer
-    upper = pi + answer
+def check_solution(result, answer):  # configured for 10/31 problem
     try:
-        if lower < float(result) < upper:
+        if result == answer:
             return True
         else:
             message = 'Subject: {}\n\n{}'.format("CPC Weekly: Incorrect Solution",
-                                                 f"Sorry, it looks like your solution was incorrect. The expected answer was: {lower} < [number] < {upper}, and your answer was: {float(result)}.")
+                                                 f"Sorry, it looks like your solution was incorrect. The expected answer was: {answer}, and your answer was: {float(result)}.")
             server.sendmail(email_user, original_sender, message)
     except ValueError:
         print("Output could not be converted to type float")
         message = 'Subject: {}\n\n{}'.format("CPC Weekly: Incorrect Solution",
-                                             f"Sorry, it looks like your solution was incorrect. The expected answer was: {lower} < [number] < {upper}, and your answer was: {result}.")
+                                             f"Sorry, it looks like your solution was incorrect. The expected answer was: {answer}, and your answer was: {result}.")
         server.sendmail(email_user, original_sender, message)
 
 
@@ -74,17 +71,17 @@ while True:
             extension = fileName.split(".")[1]
             if extension == "py":  # testing configured for 10/24
                 print(f'Filename: {fileName}')
-                r1 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='100', shell=True,
+                r1 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='3 10 8 2', shell=True,
                                     capture_output=True, text=True).stdout
                 print(f"Test 1: in=100. Result: {r1}")
-                r2 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='1000', shell=True,
+                r2 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='5 6 3 1', shell=True,
                                     capture_output=True, text=True).stdout
                 print(f"Test 2: in=1000. Result: {r2}")
-                r3 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='10000', shell=True,
+                r3 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='35 82 91 56', shell=True,
                                     capture_output=True, text=True).stdout
                 print(f"Test 3: in=10000. Result: {r3}")
 
-                if check_solution(r1, 0.75) and check_solution(r2, 0.25) and check_solution(r3, 0.075):
+                if check_solution(r1, 3) and check_solution(r2, 1) and check_solution(r3, 30):
                     print("Correct Solution!")
                     message = 'Subject: {}\n\n{}'.format(f"CPC Weekly: Tests Passed, awaiting manual review, {house} ",
                                                          "Congrats on passing the tests!")
