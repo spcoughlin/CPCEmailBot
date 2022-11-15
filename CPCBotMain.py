@@ -15,7 +15,7 @@ email_user = "bchigh.cpc@gmail.com"
 email_pass = "qrwvizsjumxddbvw"
 
 
-def check_solution(result, answer):  # configured for 11/7 problem
+def check_solution(result, answer):  # configured for 11/15 problem
     try:
         if result == answer:
             return True
@@ -69,19 +69,19 @@ while True:
             server.sendmail(email_user, email_user, message)
 
             extension = fileName.split(".")[1]
-            if extension == "py":  # testing configured for 10/24
+            if extension == "py":  # testing configured for 11/15
                 print(f'Filename: {fileName}')
-                r1 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='3 17 4', shell=True,
+                r1 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='RBGBGBRRRGBGBRBGBGGBGBRBBBGRBRBGRRRGBRBB', shell=True,
                                     capture_output=True, text=True).stdout
                 print(f"Test 1: in=100. Result: {r1}")
-                r2 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='5 37 7', shell=True,
+                r2 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='RRRRRRGGGGGGGBBBBBBBRBGBRGBBBGRBGBRRRGRGRGBREGGGB', shell=True,
                                     capture_output=True, text=True).stdout
                 print(f"Test 2: in=1000. Result: {r2}")
-                r3 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='6 173 13', shell=True,
+                r3 = subprocess.run(f'python CPCDownloadedFiles/{fileName}', input='RRGGBB', shell=True,
                                     capture_output=True, text=True).stdout
                 print(f"Test 3: in=10000. Result: {r3}")
 
-                if check_solution(r1, 13) and check_solution(r2, 103) and check_solution(r3, 373):
+                if check_solution(r1, 8) and check_solution(r2, 23) and check_solution(r3, 3):
                     print("Correct Solution!")
                     message = 'Subject: {}\n\n{}'.format(f"CPC Weekly: Tests Passed, awaiting manual review, {house} ",
                                                          "Congrats on passing the tests!")
