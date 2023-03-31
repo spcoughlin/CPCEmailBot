@@ -11,8 +11,8 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
-email_user = "bchigh.cpc@gmail.com"
-email_pass = "qrwvizsjumxddbvw"
+email_user = "<EMAIL HERE>"
+email_pass = "<PASS HERE>"
 
 
 def check_solution(result, answer):  # configured for 11/15 problem
@@ -90,7 +90,7 @@ while True:
                     # this section from https://www.tutorialspoint.com/send-mail-with-attachment-from-your-gmail-account-using-python
                     message = MIMEMultipart()
                     message['From'] = email_user
-                    message['To'] = "56spc56@gmail.com"
+                    message['To'] = "<SENDER EMAIL HERE>"
                     message['Subject'] = "CPC Weekly: Correct Solution Detected"
                     mail_content = f"Correct solution from {original_sender} of {house}, please check the file"
                     message.attach(MIMEText(mail_content, 'plain'))
